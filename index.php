@@ -6,6 +6,7 @@
     <title>Pokedex</title>
 </head>
 <body>
+    <h1>Pokedex</h1>
     <img src="./public/001.png" alt="bulbasur">
 </body>
 </html>
