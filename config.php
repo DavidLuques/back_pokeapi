@@ -8,9 +8,9 @@ if (file_exists('.env')) {
 }
 
 // Configuración de Base de Datos
-define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_USER', $_ENV['DB_USER'] ?? 'root');
-define('DB_PASS', $_ENV['DB_PASS'] ?? '');
-define('DB_NAME', $_ENV['DB_NAME'] ?? 'db_name');
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'srv715.hstgr.io');
+define('DB_USER', $_ENV['DB_USER'] ?? 'u625329211_prograweb');
+define('DB_PASS', $_ENV['DB_PASS'] ?? 'Prograweb2');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'u625329211_pokedex');
 define('DB_PORT', $_ENV['DB_PORT'] ?? 3306);
 ?>
