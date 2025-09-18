@@ -1,0 +1,31 @@
+.logo-box {
+            flex: 0 0 80px;
+        }
+
+        .title-box {
+            flex: 1;
+            text-align: center;
+        }
+
+        .title {
+            letter-spacing: 5px;
+        }
+
+        .form-box {
+            flex: 0 0 400px;
+        }
+
+        @media (max-width: 992px) {
+
+            .title-box {
+                flex: 0 0 auto;
+            }
+
+            .title-box {
+                text-align: left;
+            }
+
+            .form-box {
+                flex: 1 1 100%;
+            }
+        }
