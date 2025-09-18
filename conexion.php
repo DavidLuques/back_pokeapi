@@ -16,10 +16,16 @@ class DatabaseConfig {
 
     public function query($sql) {
         $resultado = $this->conexion->query($sql);
-        if (!$resultado) {
+
+        if ($resultado === false) {
             throw new Exception("Error en la consulta: " . $this->conexion->error);
         }
-        return $resultado->fetch_all(MYSQLI_ASSOC);
+
+        if ($resultado instanceof mysqli_result) {
+            return $resultado->fetch_all(MYSQLI_ASSOC);
+        }
+
+        return true;
     }
 
     public function close(): void {
