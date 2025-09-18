@@ -49,10 +49,23 @@
     </header>
 
     <main>
-        <div style="width: 75%;" class="input-group container-fluid mb-3 mt-5">
-            <input type="text" class="form-control" placeholder="Ingrese el nombre, tipo o número de pokémon" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Quien es este pokémon?</button>
+        <div class="container-fluid mb-3 mt-5 d-flex justify-content-center" style="width: 75%;">
+            <div class="input-group" style="max-width: 700px; flex: 1;">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+                <input type="text" class="form-control" placeholder="Ingrese el nombre, tipo o número de pokémon" aria-label="Buscar pokémon" aria-describedby="button-addon2">
+            </div>
+            <a href="#" class="btn btn-success ms-3 d-flex align-items-center" style="font-weight: 600; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(60,180,80,0.12); border-radius: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle me-2" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Agregar Pokémon
+            </a>
         </div>
+        <!-- Bootstrap Icons CDN for search and plus icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
         <?php
         require_once 'conexion.php';
