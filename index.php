@@ -84,42 +84,60 @@
     <?php
     require_once 'conexion.php';
 
-    $sql = "SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion 
-            FROM POKEMONES";
-    $resultado = $conexion->query($sql);
+    $db = new DatabaseConfig();
 
-    if ($resultado && $resultado->num_rows > 0): ?>
-        <div class="container mt-4">
-            <table class="table table-striped table-bordered align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Identificador</th>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php while($fila = $resultado->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($fila['id']) ?></td>
-                        <td><?= htmlspecialchars($fila['identificador']) ?></td>
-                        <td>
-                            <img src="<?= htmlspecialchars($fila['imagen_ruta']) ?>" alt="<?= htmlspecialchars($fila['nombre']) ?>" style="width:60px;">
-                        </td>
-                        <td><?= htmlspecialchars($fila['nombre']) ?></td>
-                        <td><?= htmlspecialchars($fila['tipo']) ?></td>
-                        <td><?= htmlspecialchars($fila['descripcion']) ?></td>
-                    </tr>
-                <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php else: ?>
-        <p class="text-center mt-4">No hay pokémones cargados.</p>
-    <?php endif; ?>
+$sql = "SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion FROM POKEMONES";
+
+try {
+    $pokemones = $db->query($sql);   // $pokemones será un array asociativo
+} catch (Exception $e) {
+    die("<p class='text-danger'>".$e->getMessage()."</p>");
+}
+?>
+
+<?php if (!empty($pokemones)): ?>
+    <div class="container mt-4">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Identificador</th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($pokemones as $fila): ?>
+                <tr>
+                    <td><?= htmlspecialchars($fila['id']) ?></td>
+                    <td><?= htmlspecialchars($fila['identificador']) ?></td>
+                    <td>
+                        <img src="<?= htmlspecialchars($fila['imagen_ruta']) ?>"
+                             alt="<?= htmlspecialchars($fila['nombre']) ?>"
+                             style="width:60px;">
+                    </td>
+                    <td><?= htmlspecialchars($fila['nombre']) ?></td>
+                    <td><?= htmlspecialchars($fila['tipo']) ?></td>
+                    <td><?= htmlspecialchars($fila['descripcion']) ?></td>
+                    <td>
+                        <div class="d-flex flex-row gap-2">
+                            <button type="button" class="btn btn-dark">Modificación</button>
+                            <button type="button" class="btn btn-dark">Baja</button>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <p class="text-center mt-4">No hay pokémones cargados.</p>
+<?php endif; ?>
+
+<?php $db->close(); ?>
 </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
