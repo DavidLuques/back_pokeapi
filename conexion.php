@@ -1,10 +1,12 @@
 <?php
 require_once 'config.php';
 
-class DatabaseConfig {
+class DatabaseConfig
+{
     private $conexion;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conexion = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
         if ($this->conexion->connect_error) {
@@ -14,7 +16,8 @@ class DatabaseConfig {
         $this->conexion->set_charset("utf8mb4");
     }
 
-    public function query($sql) {
+    public function query($sql)
+    {
         $resultado = $this->conexion->query($sql);
 
         if ($resultado === false) {
@@ -28,8 +31,15 @@ class DatabaseConfig {
         return true;
     }
 
-    public function close(): void {
+    public function close(): void
+    {
         $this->conexion->close();
     }
+
+    public function deletePokemon($id)
+    {
+        $id = (int) $id; // aseguramos que sea entero
+        $sql = "DELETE FROM POKEMONES WHERE id = $id";
+        return $this->conexion->query($sql);
+    }
 }
-?>
