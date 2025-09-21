@@ -2,9 +2,9 @@
 require_once 'conexion.php';
 
 if (isset($_GET['id'])) {
-    $id = (int) $_GET['id'];
-
+    $id = $_GET['id'];
     $db = new DatabaseConfig();
+
     $db->deletePokemon($id);
     $db->close();
 

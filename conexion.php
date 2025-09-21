@@ -31,15 +31,15 @@ class DatabaseConfig
         return true;
     }
 
-    public function close(): void
+    public function close()
     {
         $this->conexion->close();
     }
 
     public function deletePokemon($id)
     {
-        $id = (int) $id; // aseguramos que sea entero
         $sql = "DELETE FROM POKEMONES WHERE id = $id";
+
         return $this->conexion->query($sql);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-// Cargar variables de entorno desde .env (método súper simple)
+// Cargar variables de entorno desde .env
 if (file_exists('.env')) {
     $env = parse_ini_file('.env');
     foreach ($env as $key => $value) {

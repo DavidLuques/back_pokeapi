@@ -50,12 +50,20 @@
 
     <main>
         <div class="container-fluid mb-3 mt-5 d-flex justify-content-center" style="width: 75%;">
-            <div class="input-group" style="max-width: 700px; flex: 1;">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2" style="border: 2px solid #000; box-shadow: 0 1px 2px rgba(0,0,0,0.08);">
-                    <i class="bi bi-search"></i> Buscar
-                </button>
-                <input type="text" class="form-control" placeholder="Ingrese el nombre, tipo o número de pokémon" aria-label="Buscar pokémon" aria-describedby="button-addon2">
-            </div>
+            <form method="get" style="max-width:700px; flex:1;">
+                <div class="input-group">
+                    <input type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Ingrese el nombre, tipo o número de pokémon"
+                        aria-label="Buscar pokémon">
+                    <button class="btn btn-outline-secondary"
+                        type="submit"
+                        style="border:2px solid #000; box-shadow:0 1px 2px rgba(0,0,0,0.08);">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </form>
             <a href="agregar_pokemon.php" class="btn btn-success ms-3 d-flex align-items-center" style="font-weight: 600; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(60,180,80,0.12); border-radius: 8px; border: 2px solid #000;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle me-2" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
@@ -64,21 +72,32 @@
                 Agregar Pokémon
             </a>
         </div>
-        <!-- Bootstrap Icons CDN for search and plus icons -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
         <?php
         require_once 'conexion.php';
-
         $db = new DatabaseConfig();
 
-        $sql = "SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion FROM POKEMONES";
-
-        try {
-            $pokemones = $db->query($sql);   // $pokemones será un array asociativo
-        } catch (Exception $e) {
-            die("<p class='text-danger'>" . $e->getMessage() . "</p>");
+        $busqueda = '';
+        if (isset($_GET['q'])) {
+            $busqueda = trim($_GET['q']);
         }
+
+        if ($busqueda !== '') {
+            // Buscar por id, identificador, nombre o tipo
+            $sql = "
+        SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion
+        FROM POKEMONES
+        WHERE id = '$busqueda'
+           OR identificador LIKE '%$busqueda%'
+           OR nombre LIKE '%$busqueda%'
+           OR tipo LIKE '%$busqueda%'";
+        } else {
+            $sql = "
+        SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion
+        FROM POKEMONES";
+        }
+
+        $pokemones = $db->query($sql);
         ?>
 
         <?php if (!empty($pokemones)): ?>
@@ -120,10 +139,11 @@
                                 </td>
                                 <td class="columnas">
                                     <div class="d-flex flex-row gap-2">
-                                        <button type="button" class="btn d-flex align-items-center"
+                                        <a href="modif_pokemon.php?id=<?= $fila['id'] ?>"
+                                            class="btn d-flex align-items-center"
                                             style="background-color: #FFD600; color: #333; border: 2px solid #000; box-shadow: 0 1px 2px rgba(0,0,0,0.08);">
                                             <i class="bi bi-pencil-square me-1"></i> Modificación
-                                        </button>
+                                        </a>
                                         <a href="debaja_pokemon.php?id=<?= $fila['id'] ?>"
                                             class="btn btn-danger d-flex align-items-center"
                                             style="border:2px solid #000;">
@@ -137,7 +157,9 @@
                 </table>
             </div>
         <?php else: ?>
-            <p class="text-center mt-4">No hay pokémones cargados.</p>
+            <p class="text-center mt-4">
+                <?= $busqueda !== '' ? 'Pokémon no encontrado.' : 'No hay pokémones cargados.' ?>
+            </p>
         <?php endif; ?>
 
         <?php $db->close(); ?>
