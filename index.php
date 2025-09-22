@@ -13,6 +13,7 @@
             width: 100%;
             overflow-x: auto;
         }
+
         @media screen and (max-width: 765px) {
             .table-overflow {
                 overflow-x: auto;
@@ -95,7 +96,6 @@
         }
 
         if ($busqueda !== '') {
-            // Buscar por id, identificador, nombre o tipo
             $sql = "
         SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion
         FROM POKEMONES
@@ -103,13 +103,20 @@
            OR identificador LIKE '%$busqueda%'
            OR nombre LIKE '%$busqueda%'
            OR tipo LIKE '%$busqueda%'";
+            $pokemones = $db->query($sql);
+
+            if (empty($pokemones)) {
+                $sql = "
+            SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion
+            FROM POKEMONES";
+                $pokemones = $db->query($sql);
+            }
         } else {
             $sql = "
         SELECT id, identificador, imagen_ruta, nombre, tipo, descripcion
         FROM POKEMONES";
+            $pokemones = $db->query($sql);
         }
-
-        $pokemones = $db->query($sql);
         ?>
 
         <?php if (!empty($pokemones)): ?>
@@ -171,9 +178,13 @@
                 </table>
             </div>
         <?php else: ?>
-            <p class="text-center mt-4">
-                <?= $busqueda !== '' ? 'Pokémon no encontrado.' : 'No hay pokémones cargados.' ?>
-            </p>
+            <div>
+                <?php if ($busqueda !== ''): ?>
+                    <p class="text-center mt-4">Pokémon no encontrado.</p>
+                <?php else: ?>
+                    <p class="text-center mt-4">No hay pokémones cargados.</p>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
 
         <?php $db->close(); ?>

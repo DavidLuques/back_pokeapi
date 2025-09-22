@@ -36,10 +36,4 @@ class DatabaseConfig
         $this->conexion->close();
     }
 
-    public function deletePokemon($id)
-    {
-        $sql = "DELETE FROM POKEMONES WHERE id = $id";
-
-        return $this->conexion->query($sql);
-    }
 }
