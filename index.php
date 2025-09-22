@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/tabla.css">
     <title>Pokedex</title>
+    <style>
+        .table-overflow {
+            width: 100%;
+            overflow-x: auto;
+        }
+        @media screen and (max-width: 765px) {
+            .table-overflow {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -101,14 +113,14 @@
         ?>
 
         <?php if (!empty($pokemones)): ?>
-            <div class="container mt-4">
-                <table class="table table-striped table-bordered align-middle">
+            <div class="container mt-4 table-overflow">
+                <table class="table table-striped table-bordered align-middle table-overflow">
                     <thead class="table-dark">
                         <tr>
                             <th>Imagen</th>
                             <th>Tipo</th>
                             <th>Nombre</th>
-                            <th>ID</th>
+                            <th>Identificador</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -117,9 +129,11 @@
                             <tr>
                                 <td class="columnas">
                                     <div>
-                                        <img src="<?= htmlspecialchars($fila['imagen_ruta']) ?>"
-                                            alt="<?= htmlspecialchars($fila['nombre']) ?>"
-                                            style="width:60px;">
+                                        <a href="vista_pokemon.php?id=<?= $fila['id'] ?>">
+                                            <img src="<?= htmlspecialchars($fila['imagen_ruta']) ?>"
+                                                alt="<?= htmlspecialchars($fila['nombre']) ?>"
+                                                style="width:60px;">
+                                        </a>
                                     </div>
                                 </td>
                                 <td class="columnas">
@@ -134,7 +148,7 @@
                                 </td>
                                 <td class="columnas">
                                     <div>
-                                        <?= htmlspecialchars($fila['id']) ?>
+                                        <?= htmlspecialchars($fila['identificador']) ?>
                                     </div>
                                 </td>
                                 <td class="columnas">
